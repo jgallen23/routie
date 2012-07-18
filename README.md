@@ -8,32 +8,40 @@ There are three ways to use routie.
 
 Here is the most basic way:
 
-	routie('users', function() {
-		//this gets called when hash == #users
-	});
+```js
+routie('users', function() {
+	//this gets called when hash == #users
+});
+```
 
 If you want to define multiple routes you can pass in an object like this:
 
-	routie({
-		'users': function() {
+```js
+routie({
+	'users': function() {
 
-		},
-		'about': function() {
-		}
-	});
+	},
+	'about': function() {
+	}
+});
+```
 
 If you want to trigger a route manually, you can call routie like this:
 
-	routie('users/bob');  //window.location.hash will be #users/bob
+```js
+routie('users/bob');  //window.location.hash will be #users/bob
+```
 
 ##Advanced
 
 Routie also supports regex style routes, so you can do advanced routing like this:
 
-	routie('users/:name', function(name) {
-		//name == 'bob';
-	});
-	routie('users/bob');
+```js
+routie('users/:name', function(name) {
+	//name == 'bob';
+});
+routie('users/bob');
+```
 
 ##Dependancies
 
