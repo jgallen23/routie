@@ -4,8 +4,8 @@ For those of use who can't exclude IE8, here is a very tiny (800 bytes gzipped) 
 
 ##Download
 
-- [Development](https://github.com/jgallen23/routie/blob/master/dist/routie.js)
-- [Production](https://github.com/jgallen23/routie/blob/master/dist/routie.min.js)
+- [Development](https://raw.github.com/jgallen23/routie/master/dist/routie.js)
+- [Production](https://raw.github.com/jgallen23/routie/master/dist/routie.min.js)
 - [Source](https://github.com/jgallen23/routie)
 
 ##Usage
