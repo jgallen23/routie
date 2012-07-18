@@ -1,6 +1,6 @@
 #Routie
 
-A tiny (800 bytes gzipped) javascript library to handle hash routing.
+For those of use who can't exclude IE8, here is a very tiny (800 bytes gzipped) javascript library to handle hash routing.
 
 ##Usage
 
