@@ -2,6 +2,12 @@
 
 For those of use who can't exclude IE8, here is a very tiny (800 bytes gzipped) javascript library to handle hash routing.
 
+##Download
+
+- [Development](https://github.com/jgallen23/routie/blob/master/dist/routie.js)
+- [Production](https://github.com/jgallen23/routie/blob/master/dist/routie.min.js)
+- [Source](https://github.com/jgallen23/routie)
+
 ##Usage
 
 There are three ways to call routie:
@@ -43,7 +49,7 @@ routie('users/:name', function(name) {
 routie('users/bob');
 ```
 
-##Dependancies
+##Dependencies
 
 None
 
