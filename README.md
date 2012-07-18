@@ -4,7 +4,7 @@ For those of use who can't exclude IE8, here is a very tiny (800 bytes gzipped) 
 
 ##Usage
 
-There are three ways to use routie.
+There are three ways to call routie:
 
 Here is the most basic way:
 
