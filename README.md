@@ -1,6 +1,6 @@
 #Routie
 
-For those of use who can't exclude IE8, here is a very tiny (800 bytes gzipped) javascript library to handle hash routing.
+Routie is a javascript hash routing library.  It is designed for scenarios when push state is not an option (IE8 support, static/Github pages, Phonegap, simple sites, etc). It is very tiny (800 bytes gzipped), and should be able to handle all your routing needs.
 
 ##Download
 
@@ -47,6 +47,31 @@ routie('users/:name', function(name) {
 	//name == 'bob';
 });
 routie('users/bob');
+```
+
+optional params:
+```js
+routie('users/?:name', function(name) {
+	//name == undefined
+	//then
+	//name == bob
+});
+routie('users/');
+routie('users/bob');
+```
+
+wildcard:
+```js
+routie('users/*', function() {
+});
+routie('users/12312312');
+```
+
+catch all:
+```js
+routie('*', function() {
+});
+routie('anything');
 ```
 
 ##Dependencies

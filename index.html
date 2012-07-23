@@ -6,7 +6,7 @@ _gaq.push(['_trackPageview']);
   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();</script></head><body><div id="toc"></div><a href="http://github.com/jgallen23/routie"><img style="position: absolute; top: 0; right: 0; border: 0;" src="dist/images/ribbon.png" alt="Fork me on GitHub"></a><div id="wrapper"><h1>Routie</h1>
-<p>For those of use who can&#39;t exclude IE8, here is a very tiny (800 bytes gzipped) javascript library to handle hash routing.
+<p>Routie is a javascript hash routing library.  It is designed for scenarios when push state is not an option (IE8 support, static/Github pages, Phonegap, simple sites, etc). It is very tiny (800 bytes gzipped), and should be able to handle all your routing needs.
 
 </p>
 <h2>Download</h2>
@@ -47,6 +47,25 @@ _gaq.push(['_trackPageview']);
     //name == 'bob';
 }</span>);
 <span class="function_name">routie</span>('users/bob');</code></pre>
+<p>optional params:
+</p>
+<pre><code class="lang-js"><span class="function"><span class="title">routie</span><span class="params">('users/?:name', <span class="keyword">fun</span><span class="function_name">ction</span>(name) <span class="tuple">{
+    //name == undefined
+    //then
+    //name == bob
+}</span>);
+<span class="function_name">routie</span>('users/');
+<span class="function_name">routie</span>('users/bob');</code></pre>
+<p>wildcard:
+</p>
+<pre><code class="lang-js"><span class="function"><span class="title">routie</span><span class="params">('users/*', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+}</span>);
+<span class="function_name">routie</span>('users/<span class="number">12312312</span>');</code></pre>
+<p>catch all:
+</p>
+<pre><code class="lang-js"><span class="function"><span class="title">routie</span><span class="params">('*', <span class="keyword">fun</span><span class="function_name">ction</span>() <span class="tuple">{
+}</span>);
+<span class="function_name">routie</span>('anything');</code></pre>
 <h2>Dependencies</h2>
 <p>None
 
