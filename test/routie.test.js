@@ -9,6 +9,14 @@ suite('routie', function() {
     setTimeout(done, 100);
   });
 
+  test('root route', function(done) {
+    window.location.hash = '';
+    //should be called right away since there is no hash
+    routie('', function() {
+      done();
+    });
+  });
+
   test('basic route', function(done) {
     routie('test', function() {
       done();
