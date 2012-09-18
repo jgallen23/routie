@@ -1,6 +1,6 @@
 /*!
   * Routie - A tiny javascript hash router 
-  * v0.0.1
+  * v0.1.0
   * https://github.com/jgallen23/routie
   * copyright JGA 2012
   * MIT License
@@ -9,17 +9,38 @@
 (function(w) {
 
   var routes = [];
+  var map = {};
 
-  var Route = function(path, fn) {
+  var Route = function(path) {
     this.path = path;
-    this.fn = fn;
     this.keys = [];
+    this.fns = [];
     this.regex = pathToRegexp(this.path, this.keys, false, false);
 
     //check against current hash
     var hash = getHash();
     checkRoute(hash, this);
-  }
+  };
+
+  Route.prototype.addHandler = function(fn) {
+    this.fns.push(fn);
+  };
+
+  Route.prototype.removeHandler = function(fn) {
+    for (var i = 0, c = this.fns.length; i < c; i++) {
+      var f = this.fns[i];
+      if (fn == f) {
+        this.fns.splice(i, 1);
+        return;
+      }
+    }
+  };
+
+  Route.prototype.run = function(params) {
+    for (var i = 0, c = this.fns.length; i < c; i++) {
+      this.fns[i].apply(this, params);
+    }
+  };
 
   Route.prototype.match = function(path, params){
     var m = this.regex.exec(path);
@@ -65,16 +86,36 @@
     return new RegExp('^' + path + '$', sensitive ? '' : 'i');
   };
 
+  var addHandler = function(path, fn) {
+    if (!map[path]) {
+      map[path] = new Route(path);
+      routes.push(map[path]);
+    }
+    map[path].addHandler(fn);
+  }
+
   var routie = function(path, fn) {
     if (typeof fn == 'function') {
-      routes.push(new Route(path, fn));
+      addHandler(path, fn);
     } else if (typeof path == 'object') {
       for (var p in path) {
-        routes.push(new Route(p, path[p]));
+        addHandler(p, path[p]);
       }
     } else if (typeof fn === 'undefined') {
       window.location.hash = path;
     }
+  }
+
+  routie.remove = function(path, fn) {
+    var route = map[path];
+    if (!route)
+      return;
+    route.removeHandler(fn);
+  }
+
+  routie.removeAll = function() {
+    map = {};
+    routes = [];
   }
 
   var getHash = function() {
@@ -84,7 +125,7 @@
   var checkRoute = function(hash, route) {
     var params = [];
     if (route.match(hash, params)) {
-      route.fn.apply(route, params);
+      route.run(params);
       return true;
     }
     return false;
