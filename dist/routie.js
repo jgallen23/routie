@@ -17,13 +17,14 @@
     this.fns = [];
     this.regex = pathToRegexp(this.path, this.keys, false, false);
 
-    //check against current hash
-    var hash = getHash();
-    checkRoute(hash, this);
   };
 
   Route.prototype.addHandler = function(fn) {
     this.fns.push(fn);
+
+    //check against current hash
+    var hash = getHash();
+    checkRoute(hash, this);
   };
 
   Route.prototype.removeHandler = function(fn) {
