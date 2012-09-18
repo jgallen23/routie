@@ -5,6 +5,7 @@ suite('routie', function() {
 
   teardown(function(done) {
     window.location.hash = '';
+    routie.removeAll();
     setTimeout(done, 100);
   });
 
@@ -41,6 +42,41 @@ suite('routie', function() {
   test('trigger hash', function() {
     routie('test3');
     assert.equal(window.location.hash, '#test3');
+  });
+
+  test('remove route', function(done) {
+    var check = false;
+    var test9 = function() {
+      check = true;
+    }
+    routie('test9', test9);
+    routie.remove('test9', test9);
+    window.location.hash = 'test9';
+    setTimeout(function() {
+      assert.equal(check, false);
+      done();
+    }, 100);
+  });
+
+  test('remove all routes', function(done) {
+    var check = false;
+    var test9 = function() {
+      check = true;
+    }
+    var test10 = function() {
+      check = true;
+    }
+    routie('test9', test9);
+    routie('test10', test10);
+    routie.removeAll();
+    window.location.hash = 'test9';
+    setTimeout(function() {
+      window.location.hash = 'test10';
+    }, 100);
+    setTimeout(function() {
+      assert.equal(check, false);
+      done();
+    }, 200);
   });
 
   test('regex support', function(done) {
