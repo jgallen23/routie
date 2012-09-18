@@ -24,6 +24,20 @@ suite('routie', function() {
     window.location.hash = 'test2';
   });
 
+  test('calling the same route more than once', function(done) {
+    var runCount = 0;
+    routie('test8', function() {
+      console.log('1');
+      runCount++
+    });
+    routie('test8', function() {
+      console.log('2');
+      assert.equal(runCount, 1);
+      done();
+    });
+    window.location.hash = 'test8';
+  });
+
   test('trigger hash', function() {
     routie('test3');
     assert.equal(window.location.hash, '#test3');
@@ -73,5 +87,6 @@ suite('routie', function() {
     routie('test7');
   });
   */
+
 
 });

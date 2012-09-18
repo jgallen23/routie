@@ -93,7 +93,7 @@
       // add rule for morphing between old and new css files
       var head = document.getElementsByTagName("head")[0],
           style = document.createElement("style"),
-          rule = "transition: all .3s ease-out;"
+          rule = "transition: all .3s ease-out;",
       css = [".livejs-loading * { ", rule, " -webkit-", rule, "-moz-", rule, "-o-", rule, "}"].join('');
       style.setAttribute("type", "text/css");
       head.appendChild(style);
