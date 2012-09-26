@@ -1,6 +1,6 @@
 /*!
   * Routie - A tiny javascript hash router 
-  * v0.1.0
+  * v0.2.0
   * https://github.com/jgallen23/routie
   * copyright JGA 2012
   * MIT License
@@ -11,7 +11,8 @@
   var routes = [];
   var map = {};
 
-  var Route = function(path) {
+  var Route = function(path, name) {
+    this.name = name;
     this.path = path;
     this.keys = [];
     this.fns = [];
@@ -64,6 +65,18 @@
     return true;
   };
 
+  Route.prototype.toURL = function(params) {
+    var path = this.path;
+    for (var param in params) {
+      path = path.replace('/:'+param, '/'+params[param]);
+    }
+    path = path.replace(/\/:.*\?/, '/');
+    if (path.indexOf(':') != -1) {
+      throw new Error('missing parameters for url: '+path);
+    }
+    return path;
+  };
+
   var pathToRegexp = function(path, keys, sensitive, strict) {
     if (path instanceof RegExp) return path;
     if (path instanceof Array) path = '(' + path.join('|') + ')';
@@ -88,8 +101,12 @@
   };
 
   var addHandler = function(path, fn) {
+    var s = path.split(' ');
+    var name = (s.length == 2) ? s[0] : null;
+    path = (s.length == 2) ? s[1] : s[0];
+
     if (!map[path]) {
-      map[path] = new Route(path);
+      map[path] = new Route(path, name);
       routes.push(map[path]);
     }
     map[path].addHandler(fn);
@@ -104,6 +121,15 @@
       }
     } else if (typeof fn === 'undefined') {
       window.location.hash = path;
+    }
+  }
+  
+  routie.lookup = function(name, obj) {
+    for (var i = 0, c = routes.length; i < c; i++) {
+      var route = routes[i];
+      if (route.name == name) {
+        return route.toURL(obj);
+      }
     }
   }
 
