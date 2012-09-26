@@ -132,5 +132,48 @@ suite('routie', function() {
   });
   */
 
+  suite('named routes', function() {
+    test('allow for named routes', function() {
+      routie('namedRoute name/', function() {});
+
+      assert.equal(routie.lookup('namedRoute'), 'name/');
+    });
+
+    test('routes should still work the same', function(done) {
+
+      routie('namedRoute url/name2/', done);
+      routie('url/name2/');
+
+    });
+
+    test('allow for named routes with params', function() {
+      routie({
+        'namedRoute name2/:param': function() { }
+      });
+
+      assert.equal(routie.lookup('namedRoute', { param: 'test' }), 'name2/test');
+    });
+
+    test('allow for named routes with optional params', function() {
+      routie({
+        'namedRoute name2/:param?': function() { }
+      });
+
+      assert.equal(routie.lookup('namedRoute'), 'name2/');
+    });
+
+    test('error if param not passed in', function() {
+      routie({
+        'namedRoute name2/:param': function() {
+        }
+      });
+
+      assert.throws(function() {
+        routie.lookup('namedRoute');
+      });
+    });
+    
+  });
+  
 
 });
