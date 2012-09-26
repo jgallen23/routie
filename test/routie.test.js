@@ -162,6 +162,14 @@ suite('routie', function() {
       assert.equal(routie.lookup('namedRoute'), 'name2/');
     });
 
+    test('allow for named routes with optional params', function() {
+      routie({
+        'namedRoute name2/:param?': function() { }
+      });
+
+      assert.equal(routie.lookup('namedRoute', { param: 'test' }), 'name2/test');
+    });
+
     test('error if param not passed in', function() {
       routie({
         'namedRoute name2/:param': function() {
