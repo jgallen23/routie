@@ -8,7 +8,7 @@ Routie is a javascript hash routing library.  It is designed for scenarios when 
 - [Production](https://raw.github.com/jgallen23/routie/master/dist/routie.min.js)
 - [Source](https://github.com/jgallen23/routie)
 
-##Usage
+##Basic Usage
 
 There are three ways to call routie:
 
@@ -38,7 +38,7 @@ If you want to trigger a route manually, you can call routie like this:
 routie('users/bob');  //window.location.hash will be #users/bob
 ```
 
-##Advanced
+##Regex Routes
 
 Routie also supports regex style routes, so you can do advanced routing like this:
 
@@ -49,9 +49,9 @@ routie('users/:name', function(name) {
 routie('users/bob');
 ```
 
-optional params:
+###Optional Params:
 ```js
-routie('users/?:name', function(name) {
+routie('users/:name?', function(name) {
 	//name == undefined
 	//then
 	//name == bob
@@ -60,19 +60,34 @@ routie('users/');
 routie('users/bob');
 ```
 
-wildcard:
+###Wildcard:
 ```js
 routie('users/*', function() {
 });
 routie('users/12312312');
 ```
 
-catch all:
+###Catch All:
 ```js
 routie('*', function() {
 });
 routie('anything');
 ```
+
+##Named Routes
+
+Named routes make it easy to build urls for use in your templates.  Instead of re-creating the url, you can just name your url when you define it and then perform a lookup.  The name of the route is optional.  The syntax is "\[name\] \[route\]".
+
+```js
+routie('user users/:name', function() {});
+```
+
+then in your template code, you can do:
+
+```js
+routie.lookup('user', { name: 'bob'}) // == users/bob
+```
+
 
 ##Dependencies
 
