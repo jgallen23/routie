@@ -1,6 +1,6 @@
 /*!
   * Routie - A tiny javascript hash router 
-  * v0.2.0
+  * v0.2.1
   * https://github.com/jgallen23/routie
   * copyright JGA 2012
   * MIT License
@@ -70,7 +70,7 @@
     for (var param in params) {
       path = path.replace('/:'+param, '/'+params[param]);
     }
-    path = path.replace(/\/:.*\?/, '/');
+    path = path.replace(/\/:.*\?/g, '/').replace(/\?/g, '');
     if (path.indexOf(':') != -1) {
       throw new Error('missing parameters for url: '+path);
     }
