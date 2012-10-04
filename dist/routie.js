@@ -1,6 +1,6 @@
 /*!
   * Routie - A tiny javascript hash router 
-  * v0.2.1
+  * v0.2.3
   * https://github.com/jgallen23/routie
   * copyright JGA 2012
   * MIT License
@@ -16,6 +16,7 @@
     this.path = path;
     this.keys = [];
     this.fns = [];
+    this.params = {};
     this.regex = pathToRegexp(this.path, this.keys, false, false);
 
   };
@@ -55,11 +56,10 @@
 
       var val = ('string' == typeof m[i]) ? decodeURIComponent(m[i]) : m[i];
 
-      //if (key) {
-        //params[key.name] = (undefined !== params[key.name]) ? params[key.name] : val;
-      //} else {
+      if (key) {
+        this.params[key.name] = val;
+      }
       params.push(val);
-      //}
     }
 
     return true;
