@@ -36,11 +36,9 @@ suite('routie', function() {
   test('calling the same route more than once', function(done) {
     var runCount = 0;
     routie('test8', function() {
-      console.log('1');
       runCount++
     });
     routie('test8', function() {
-      console.log('2');
       assert.equal(runCount, 1);
       done();
     });
@@ -91,16 +89,26 @@ suite('routie', function() {
 
     routie('test4/:name', function(name) {
       assert.equal(name, 'bob');
+      assert.equal(this.params.name, 'bob');
       done();
     });
 
     routie('test4/bob');
   });
 
+  //test('route with dash', function(done) {
+    //routie('test-:name', function(name) {
+      //assert.equal(name, 'bob');
+    //});
+    //routie('test-bob');
+    
+  //});
+
   test('optional param support', function(done) {
 
     routie('test5/:name?', function(name) {
       assert.equal(name, undefined);
+      assert.equal(this.params.name, undefined);
       done();
     });
 
@@ -119,6 +127,14 @@ suite('routie', function() {
       done();
     });
     routie('test6');
+  });
+
+  test('this set with data about the route', function(done) {
+    routie('test', function() {
+      assert.equal(this.path, 'test');
+      done();
+    });
+    routie('test');
   });
 
   /*TODO
@@ -179,6 +195,16 @@ suite('routie', function() {
       assert.throws(function() {
         routie.lookup('namedRoute');
       });
+    });
+
+    test('this contains named route', function(done) {
+      routie('namedRoute test/:param', function() {
+        assert.equal(this.name, 'namedRoute');
+        assert.equal(this.params.param, 'bob');
+        done();
+      });
+      routie('test/bob');
+      
     });
     
   });
