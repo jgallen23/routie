@@ -230,6 +230,38 @@ suite('routie', function() {
     });
     
   });
+
+  suite('navigate', function() {
+
+    test('call routie.navigate to change hash', function(done) {
+      //same as routie('nav-test');
+      routie.navigate('nav-test');
+      setTimeout(function() {
+        assert.equal(window.location.hash, '#nav-test');
+        done();
+      }, 10);
+    });
+
+    test('pass in {silent: true} to not trigger route', function(done) {
+
+      var called = 0;
+
+      routie('silent-test', function() {
+        called++;
+      });
+
+      routie.navigate('silent-test', { silent: true });
+
+      setTimeout(function() {
+        assert.equal(called, 0);
+        assert.equal(window.location.hash, '#silent-test');
+        done();
+      }, 10);
+      
+    });
+    
+  });
+  
   
 
 });
