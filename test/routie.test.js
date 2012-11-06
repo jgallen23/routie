@@ -6,7 +6,7 @@ suite('routie', function() {
   teardown(function(done) {
     window.location.hash = '';
     routie.removeAll();
-    setTimeout(done, 100);
+    setTimeout(done, 20);
   });
 
   test('root route', function(done) {
@@ -50,7 +50,7 @@ suite('routie', function() {
     setTimeout(function() {
       assert.equal(window.location.hash, '#test3');
       done();
-    }, 10);
+    }, 20);
   });
 
   test('remove route', function(done) {
@@ -64,7 +64,7 @@ suite('routie', function() {
     setTimeout(function() {
       assert.equal(check, false);
       done();
-    }, 100);
+    }, 20);
   });
 
   test('remove all routes', function(done) {
@@ -72,20 +72,20 @@ suite('routie', function() {
     var test9 = function() {
       check = true;
     };
-    var test10 = function() {
+    var test20 = function() {
       check = true;
     };
     routie('test9', test9);
-    routie('test10', test10);
+    routie('test20', test20);
     routie.removeAll();
     window.location.hash = 'test9';
     setTimeout(function() {
-      window.location.hash = 'test10';
-    }, 100);
+      window.location.hash = 'test20';
+    }, 20);
     setTimeout(function() {
       assert.equal(check, false);
       done();
-    }, 200);
+    }, 40);
   });
 
   test('regex support', function(done) {
@@ -155,7 +155,7 @@ suite('routie', function() {
     setTimeout(function() {
       assert.equal(called, 1);
       done();
-    }, 100);
+    }, 20);
     
   });
 
@@ -239,7 +239,7 @@ suite('routie', function() {
       setTimeout(function() {
         assert.equal(window.location.hash, '#nav-test');
         done();
-      }, 10);
+      }, 20);
     });
 
     test('pass in {silent: true} to not trigger route', function(done) {
@@ -256,7 +256,7 @@ suite('routie', function() {
         assert.equal(called, 0);
         assert.equal(window.location.hash, '#silent-test');
         done();
-      }, 10);
+      }, 20);
       
     });
     
