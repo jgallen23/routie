@@ -45,9 +45,12 @@ suite('routie', function() {
     window.location.hash = 'test8';
   });
 
-  test('trigger hash', function() {
+  test('trigger hash', function(done) {
     routie('test3');
-    assert.equal(window.location.hash, '#test3');
+    setTimeout(function() {
+      assert.equal(window.location.hash, '#test3');
+      done();
+    }, 10);
   });
 
   test('remove route', function(done) {
@@ -135,6 +138,25 @@ suite('routie', function() {
       done();
     });
     routie('test');
+  });
+
+  test('double fire bug', function(done) {
+    var called = 0;
+    routie({
+      'splash1': function() {
+        routie('splash2');
+      },
+      'splash2': function() {
+        called++;
+      }
+    });
+    routie('splash1');
+
+    setTimeout(function() {
+      assert.equal(called, 1);
+      done();
+    }, 100);
+    
   });
 
   /*TODO
