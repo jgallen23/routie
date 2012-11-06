@@ -25,6 +25,15 @@ module.exports = function(grunt) {
         dest: 'dist/routie.min.js'
       }
     },
+    mocha: {
+      all: {
+        src: 'test/index.html',
+        options: {
+          ui: 'tdd'
+        },
+        run: true
+      }
+    },
     watch: {
       js: {
         files: '<config:lint.all>',
@@ -36,6 +45,7 @@ module.exports = function(grunt) {
       base: '.'
     }
   });
+  grunt.loadNpmTasks('grunt-mocha');
   grunt.registerTask('default', 'lint concat min');
   grunt.registerTask('dev', 'server watch');
 }
