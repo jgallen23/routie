@@ -36,7 +36,7 @@ suite('routie', function() {
   test('calling the same route more than once', function(done) {
     var runCount = 0;
     routie('test8', function() {
-      runCount++
+      runCount++;
     });
     routie('test8', function() {
       assert.equal(runCount, 1);
@@ -57,7 +57,7 @@ suite('routie', function() {
     var check = false;
     var test9 = function() {
       check = true;
-    }
+    };
     routie('test9', test9);
     routie.remove('test9', test9);
     window.location.hash = 'test9';
@@ -71,10 +71,10 @@ suite('routie', function() {
     var check = false;
     var test9 = function() {
       check = true;
-    }
+    };
     var test10 = function() {
       check = true;
-    }
+    };
     routie('test9', test9);
     routie('test10', test10);
     routie.removeAll();

@@ -36,6 +36,6 @@ module.exports = function(grunt) {
       base: '.'
     }
   });
-  grunt.registerTask('default', 'concat min');
+  grunt.registerTask('default', 'lint concat min');
   grunt.registerTask('dev', 'server watch');
 }
