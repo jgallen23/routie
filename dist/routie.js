@@ -1,10 +1,10 @@
 /*!
-  * Routie - A tiny javascript hash router 
-  * v0.2.3
-  * https://github.com/jgallen23/routie
-  * copyright JGA 2012
-  * MIT License
-  */
+ * routie - a tiny hash router
+ * v0.3.0
+ * https://github.com/jgallen23/routie
+ * copyright JGA 2012
+ * MIT License
+*/
 
 (function(w) {
 
@@ -47,10 +47,10 @@
 
   Route.prototype.match = function(path, params){
     var m = this.regex.exec(path);
-  
+
     if (!m) return false;
 
-    
+
     for (var i = 1, len = m.length; i < len; ++i) {
       var key = this.keys[i - 1];
 
@@ -87,12 +87,7 @@
       .replace(/(\/)?(\.)?:(\w+)(?:(\(.*?\)))?(\?)?/g, function(_, slash, format, key, capture, optional){
         keys.push({ name: key, optional: !! optional });
         slash = slash || '';
-        return ''
-          + (optional ? '' : slash)
-          + '(?:'
-          + (optional ? slash : '')
-          + (format || '') + (capture || (format && '([^/.]+?)' || '([^/]+?)')) + ')'
-          + (optional || '');
+        return '' + (optional ? '' : slash) + '(?:' + (optional ? slash : '') + (format || '') + (capture || (format && '([^/.]+?)' || '([^/]+?)')) + ')' + (optional || '');
       })
       .replace(/([\/.])/g, '\\$1')
       .replace(/__plus__/g, '(.+)')
@@ -110,7 +105,7 @@
       routes.push(map[path]);
     }
     map[path].addHandler(fn);
-  }
+  };
 
   var routie = function(path, fn) {
     if (typeof fn == 'function') {
@@ -120,10 +115,10 @@
         addHandler(p, path[p]);
       }
     } else if (typeof fn === 'undefined') {
-      window.location.hash = path;
+      routie.navigate(path);
     }
-  }
-  
+  };
+
   routie.lookup = function(name, obj) {
     for (var i = 0, c = routes.length; i < c; i++) {
       var route = routes[i];
@@ -131,23 +126,42 @@
         return route.toURL(obj);
       }
     }
-  }
+  };
 
   routie.remove = function(path, fn) {
     var route = map[path];
     if (!route)
       return;
     route.removeHandler(fn);
-  }
+  };
 
   routie.removeAll = function() {
     map = {};
     routes = [];
-  }
+  };
+
+  routie.navigate = function(path, options) {
+    options = options || {};
+    var silent = options.silent || false;
+
+    if (silent) {
+      removeListener();
+    }
+    setTimeout(function() {
+      window.location.hash = path;
+
+      if (silent) {
+        setTimeout(function() { 
+          addListener();
+        }, 1);
+      }
+
+    }, 1);
+  };
 
   var getHash = function() {
     return window.location.hash.substring(1);
-  }
+  };
 
   var checkRoute = function(hash, route) {
     var params = [];
@@ -156,22 +170,33 @@
       return true;
     }
     return false;
-  }
+  };
 
-  var hashChanged = function() {
+  var hashChanged = routie.reload = function() {
     var hash = getHash();
     for (var i = 0, c = routes.length; i < c; i++) {
       var route = routes[i];
       if (checkRoute(hash, route))
         return;
     }
-  }
+  };
 
-  if (w.addEventListener) {
-    w.addEventListener('hashchange', hashChanged);
-  } else {
-    w.attachEvent('onhashchange', hashChanged);
-  }
+  var addListener = function() {
+    if (w.addEventListener) {
+      w.addEventListener('hashchange', hashChanged);
+    } else {
+      w.attachEvent('onhashchange', hashChanged);
+    }
+  };
+
+  var removeListener = function() {
+    if (w.removeEventListener) {
+      w.removeEventListener('hashchange', hashChanged);
+    } else {
+      w.detachEvent('onhashchange', hashChanged);
+    }
+  };
+  addListener();
 
   w.routie = routie;
 })(window);

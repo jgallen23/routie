@@ -1,4 +1,14 @@
 
+0.3.0 / 2012-11-06 
+==================
+
+  * initial grunt-mocha integration
+  * tweaked timeouts
+  * lint
+  * added routie.navigate with option for silent: true
+  * switched to use dist version for tests
+  * fixed #1 - double routing bug
+
 0.2.2 / 2012-10-04 
 ==================
 

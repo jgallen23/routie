@@ -1,7 +1,7 @@
 {
   "name": "routie",
   "description": "a tiny hash router",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "license": "MIT",
   "homepage": "https://github.com/jgallen23/routie",
   "copyright": "JGA"
