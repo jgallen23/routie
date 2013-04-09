@@ -1,12 +1,15 @@
-var assert = chai.assert;
-
-
 suite('routie', function() {
 
   teardown(function(done) {
     window.location.hash = '';
     routie.removeAll();
     setTimeout(done, 20);
+  });
+
+  test('noConflict', function() {
+    var r = routie.noConflict();
+    assert.equal(typeof window.routie, 'undefined');
+    window.routie = r;
   });
 
   test('root route', function(done) {
@@ -261,7 +264,6 @@ suite('routie', function() {
     });
     
   });
-  
-  
+
 
 });
