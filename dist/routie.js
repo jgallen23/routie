@@ -1,15 +1,16 @@
 /*!
  * routie - a tiny hash router
- * v0.3.0
- * https://github.com/jgallen23/routie
- * copyright JGA 2012
+ * v0.3.1
+ * http://projects.jga.me/routie
+ * copyright Greg Allen 2013
  * MIT License
 */
-
 (function(w) {
 
   var routes = [];
   var map = {};
+  var reference = "routie";
+  var oldReference = w[reference];
 
   var Route = function(path, name) {
     this.name = name;
@@ -159,6 +160,11 @@
     }, 1);
   };
 
+  routie.noConflict = function() {
+    w[reference] = oldReference;
+    return routie;
+  };
+
   var getHash = function() {
     return window.location.hash.substring(1);
   };
@@ -183,7 +189,7 @@
 
   var addListener = function() {
     if (w.addEventListener) {
-      w.addEventListener('hashchange', hashChanged);
+      w.addEventListener('hashchange', hashChanged, false);
     } else {
       w.attachEvent('onhashchange', hashChanged);
     }
@@ -198,5 +204,6 @@
   };
   addListener();
 
-  w.routie = routie;
+  w[reference] = routie;
+   
 })(window);
