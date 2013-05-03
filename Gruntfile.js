@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     },
     jshint: {
       main: [
-        'grunt.js', 
+        'Gruntfile.js', 
         'component.json',
         'lib/**/*.js',
         'test/*.js'
@@ -53,6 +53,9 @@ module.exports = function(grunt) {
       all: {
         src: 'test/index.html',
         options: {
+          mocha: {
+            //grep: 'only first route is run'
+          },
           run: true
         }
       }
