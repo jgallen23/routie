@@ -1,4 +1,12 @@
 
+0.3.2 / 2013-05-03 
+==================
+
+  * fix for fallback routes
+  * updated deps
+  * changed to watch Gruntfile.js
+  * removed unused live.js file
+
 0.3.0 / 2012-11-06 
 ==================
 

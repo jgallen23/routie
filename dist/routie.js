@@ -1,6 +1,6 @@
 /*!
  * routie - a tiny hash router
- * v0.3.1
+ * v0.3.2
  * http://projects.jga.me/routie
  * copyright Greg Allen 2013
  * MIT License
@@ -24,10 +24,6 @@
 
   Route.prototype.addHandler = function(fn) {
     this.fns.push(fn);
-
-    //check against current hash
-    var hash = getHash();
-    checkRoute(hash, this);
   };
 
   Route.prototype.removeHandler = function(fn) {
@@ -111,10 +107,12 @@
   var routie = function(path, fn) {
     if (typeof fn == 'function') {
       addHandler(path, fn);
+      routie.reload();
     } else if (typeof path == 'object') {
       for (var p in path) {
         addHandler(p, path[p]);
       }
+      routie.reload();
     } else if (typeof fn === 'undefined') {
       routie.navigate(path);
     }
@@ -182,8 +180,9 @@
     var hash = getHash();
     for (var i = 0, c = routes.length; i < c; i++) {
       var route = routes[i];
-      if (checkRoute(hash, route))
+      if (checkRoute(hash, route)) {
         return;
+      }
     }
   };
 
