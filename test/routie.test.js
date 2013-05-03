@@ -1,8 +1,8 @@
 suite('routie', function() {
 
   teardown(function(done) {
-    window.location.hash = '';
     routie.removeAll();
+    window.location.hash = '';
     setTimeout(done, 20);
   });
 
@@ -158,8 +158,64 @@ suite('routie', function() {
     setTimeout(function() {
       assert.equal(called, 1);
       done();
-    }, 20);
-    
+    }, 100);
+  });
+
+  test('only first route is run', function(done) {
+    var count = 0;
+    routie({
+      'test*': function() {
+        count++;
+      },
+      'test10': function() {
+        count++;
+      }
+    });
+    routie('test10');
+    setTimeout(function() { 
+      assert.equal(count, 1);
+      done();
+    }, 100);
+  });
+
+  test('fallback not called if something else matches', function(done) {
+    var count = 0;
+    routie({
+      '': function() {
+        //root
+      },
+      'test11': function() {
+        count++;
+      },
+      '*': function() {
+        count++;
+      }
+    });
+    routie('test11');
+    setTimeout(function() { 
+      assert.equal(count, 1);
+      done();
+    }, 100);
+  });
+
+  test('fallback called if nothing else matches', function(done) {
+    var count = 0;
+    routie({
+      '': function() {
+        //root
+      },
+      'test11': function() {
+        count++;
+      },
+      '*': function() {
+        count++;
+      }
+    });
+    routie('test12');
+    setTimeout(function() { 
+      assert.equal(count, 1);
+      done();
+    }, 100);
   });
 
   /*TODO
@@ -229,9 +285,8 @@ suite('routie', function() {
         done();
       });
       routie('test/bob');
-      
     });
-    
+
   });
 
   suite('navigate', function() {
