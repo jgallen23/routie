@@ -2,6 +2,7 @@
   "name": "routie",
   "version": "0.0.0",
   "private": true,
+  "main": "./lib/routie.js",
   "devDependencies": {
     "mocha": "~1.9.0",
     "grunt": "~0.4.1",
