@@ -139,6 +139,11 @@
     routes = [];
   };
 
+  routie.restartListeners = function() {
+      removeListener();
+      addListener();
+  };
+
   routie.navigate = function(path, options) {
     options = options || {};
     var silent = options.silent || false;
@@ -186,8 +191,20 @@
     }
   };
 
-  var addListener = function() {
-    if (w.addEventListener) {
+  var listenerIntervalId,
+      listenerInterval = 50,
+      oldHash,
+      addListener = function() {
+    if (!('onhashchange' in window)) {
+        listenerIntervalId = setInterval(function() {
+            var newHash = window.location.hash;
+            if (newHash !== oldHash) {
+                hashChanged.call(window, {type: 'hashchange',
+                    newHash:newHash, oldHash:oldHash});
+                oldHash = newHash;
+            }
+        }, listenerInterval);
+    } else if (w.addEventListener) {
       w.addEventListener('hashchange', hashChanged, false);
     } else {
       w.attachEvent('onhashchange', hashChanged);
@@ -195,14 +212,16 @@
   };
 
   var removeListener = function() {
-    if (w.removeEventListener) {
+      if (!('onhashchange' in window)) {
+          clearInterval(listenerIntervalId);
+          oldHash = undefined;
+      } else if (w.removeEventListener) {
       w.removeEventListener('hashchange', hashChanged);
-    } else {
+      } else {
       w.detachEvent('onhashchange', hashChanged);
     }
   };
   addListener();
 
   w[reference] = routie;
-   
 })(window);
