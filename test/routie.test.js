@@ -315,9 +315,25 @@ suite('routie', function() {
         assert.equal(window.location.hash, '#silent-test');
         done();
       }, 20);
-      
     });
-    
+    test('IE7 fallback support', function(done) {
+        var called = 0,
+            oldEvent = window.onhashchange;
+        delete window.onhashchange;
+        window.location.hash = '#';
+        routie.restartListeners();
+        routie('ie7-test', function() {
+            called++;
+        });
+        window.location.hash = '#ie7-test';
+        setTimeout(function() {
+            assert.equal(called, 1);
+            assert.equal(window.location.hash, '#ie7-test');
+            window.onhashchange = oldEvent;
+            routie.restartListeners();
+            done();
+        }, 100);
+    });
   });
 
 
