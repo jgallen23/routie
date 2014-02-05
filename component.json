@@ -9,6 +9,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "assert": "*"
-  }
+    "component/assert": "*"
+  },
+  "remotes": []
 }
