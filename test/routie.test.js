@@ -36,6 +36,13 @@ suite('routie', function() {
     window.location.hash = 'test2';
   });
 
+  test('extend routes map', function(done) {
+    routie.extend('test21', function() {
+      done();
+    });
+    window.location.hash = 'test21';
+  });
+
   test('calling the same route more than once', function(done) {
     var runCount = 0;
     routie('test8', function() {
@@ -87,6 +94,28 @@ suite('routie', function() {
     }, 20);
     setTimeout(function() {
       assert.equal(check, false);
+      done();
+    }, 40);
+  });
+
+  test('remove routes by pattern', function(done) {
+    var check = false;
+    var testAA = function() {
+      check = true;
+    };
+    var testBB = function() {
+      check = true;
+    };
+    routie('testAA', testAA);
+    routie('testBB', testBB);
+    routie.removeRoutesByPattern(/testA.*/);
+    window.location.hash = 'testAA';
+    setTimeout(function() {
+      assert.equal(check, false);
+      window.location.hash = 'testBB';
+    }, 20);
+    setTimeout(function() {
+      assert.equal(check, true);
       done();
     }, 40);
   });

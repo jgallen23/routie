@@ -2,12 +2,11 @@
  * routie - a tiny hash router
  * v0.3.2
  * http://projects.jga.me/routie
- * copyright Greg Allen 2013
+ * copyright Greg Allen 2014
  * MIT License
 */
 (function(w) {
 
-  var routes = [];
   var map = {};
   var reference = "routie";
   var oldReference = w[reference];
@@ -99,7 +98,6 @@
 
     if (!map[path]) {
       map[path] = new Route(path, name);
-      routes.push(map[path]);
     }
     map[path].addHandler(fn);
   };
@@ -118,11 +116,20 @@
     }
   };
 
+  routie.extend = function(path, fn) {
+    if (typeof fn == 'function') {
+      addHandler(path, fn);
+    } else if (typeof path == 'object') {
+      for (var p in path) {
+        addHandler(p, path[p]);
+      }
+    }
+  };
+
   routie.lookup = function(name, obj) {
-    for (var i = 0, c = routes.length; i < c; i++) {
-      var route = routes[i];
-      if (route.name == name) {
-        return route.toURL(obj);
+    for (var path in map) {
+      if (map[path].name == name) {
+        return map[path].toURL(obj);
       }
     }
   };
@@ -134,9 +141,16 @@
     route.removeHandler(fn);
   };
 
+  routie.removeRoutesByPattern = function(pattern) {
+    for(var path in map){
+      if(path.match(pattern)){
+        delete map[path];
+      }
+    }
+  };
+
   routie.removeAll = function() {
     map = {};
-    routes = [];
   };
 
   routie.navigate = function(path, options) {
@@ -150,7 +164,7 @@
       window.location.hash = path;
 
       if (silent) {
-        setTimeout(function() { 
+        setTimeout(function() {
           addListener();
         }, 1);
       }
@@ -178,9 +192,8 @@
 
   var hashChanged = routie.reload = function() {
     var hash = getHash();
-    for (var i = 0, c = routes.length; i < c; i++) {
-      var route = routes[i];
-      if (checkRoute(hash, route)) {
+    for (var path in map) {
+      if (checkRoute(hash, map[path])) {
         return;
       }
     }
