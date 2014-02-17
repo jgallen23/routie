@@ -38,6 +38,24 @@ If you want to trigger a route manually, you can call routie like this:
 routie('users/bob');  //window.location.hash will be #users/bob
 ```
 
+You can extend routes map quietly:
+
+```js
+routie.extend({
+    'shop': function() {
+
+    },
+    'shop/some/goods/:id': function() {
+    }
+});
+```
+
+And remove routes from map by pattern:
+
+```js
+routie.removeRoutesByPattern(/shop.*/);
+```
+
 ##Regex Routes
 
 Routie also supports regex style routes, so you can do advanced routing like this:

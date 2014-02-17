@@ -1,4 +1,11 @@
 
+0.3.3 / 2014-02-17 
+==================
+
+  * quiet routes map extend
+  * remove routes by pattern
+  * moved from component to bower
+
 0.3.2 / 2013-05-03 
 ==================
 
