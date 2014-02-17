@@ -50,7 +50,7 @@ routie.extend({
 });
 ```
 
-And remove routes from by pattern:
+And remove routes from map by pattern:
 
 ```js
 routie.removeRoutesByPattern(/shop.*/);
