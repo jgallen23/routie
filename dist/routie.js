@@ -2,15 +2,23 @@
  * routie - a tiny hash router
  * v0.3.2
  * http://projects.jga.me/routie
- * copyright Greg Allen 2013
+ * copyright Greg Allen 2014
  * MIT License
 */
-(function(w) {
+(function (name, definition) {
+    if (typeof module !== 'undefined') {
+        module.exports = definition();
+    } else if (typeof define === 'function' && typeof define.amd === 'object') {
+        define(definition);
+    } else {
+        this[name] = definition();
+    }
+})('routie', function() {
 
   var routes = [];
   var map = {};
-  var reference = "routie";
-  var oldReference = w[reference];
+  var reference = 'routie';
+  var oldReference = window[reference];
 
   var Route = function(path, name) {
     this.name = name;
@@ -150,7 +158,7 @@
       window.location.hash = path;
 
       if (silent) {
-        setTimeout(function() { 
+        setTimeout(function() {
           addListener();
         }, 1);
       }
@@ -159,7 +167,7 @@
   };
 
   routie.noConflict = function() {
-    w[reference] = oldReference;
+    window[reference] = oldReference;
     return routie;
   };
 
@@ -187,22 +195,22 @@
   };
 
   var addListener = function() {
-    if (w.addEventListener) {
-      w.addEventListener('hashchange', hashChanged, false);
+    if (window.addEventListener) {
+      window.addEventListener('hashchange', hashChanged, false);
     } else {
-      w.attachEvent('onhashchange', hashChanged);
+      window.attachEvent('onhashchange', hashChanged);
     }
   };
 
   var removeListener = function() {
-    if (w.removeEventListener) {
-      w.removeEventListener('hashchange', hashChanged);
+    if (window.removeEventListener) {
+      window.removeEventListener('hashchange', hashChanged);
     } else {
-      w.detachEvent('onhashchange', hashChanged);
+      window.detachEvent('onhashchange', hashChanged);
     }
   };
   addListener();
 
-  w[reference] = routie;
-   
-})(window);
+  return routie;
+
+});

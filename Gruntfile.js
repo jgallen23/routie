@@ -12,10 +12,10 @@ module.exports = function(grunt) {
     },
     jshint: {
       main: [
-        'Gruntfile.js', 
+        'Gruntfile.js',
         'component.json',
         'lib/**/*.js',
-        'test/*.js'
+        'test/routie.*.js'
       ]
     },
     concat: {
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     watch: {
       main: {
         files: '<%= jshint.main %>',
-        tasks: 'default' 
+        tasks: 'default'
       },
       ci: {
         files: [
