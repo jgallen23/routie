@@ -48,6 +48,20 @@ suite('routie', function() {
     window.location.hash = 'test8';
   });
 
+  test('calling routes multiple times, executing call only once', function(done){
+    var runCount = 0;
+    routie('test21', function(){
+      runCount++;
+    }, false);
+
+    routie('test22', function(){}, false);
+
+    routie.apply();
+    window.location.hash = 'test21';
+    assert.equal(runCount, 1);
+  });
+
+
   test('trigger hash', function(done) {
     routie('test3');
     setTimeout(function() {
