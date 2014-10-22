@@ -2,11 +2,22 @@
  * routie - a tiny hash router
  * v0.3.2
  * http://projects.jga.me/routie
- * copyright Greg Allen 2013
+ * copyright Greg Allen 2014
  * MIT License
 */
-(function(w) {
+(function(root, factory) {
+  'use strict';
 
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.routie = factory();
+  }
+} (this, function() {
+
+  var w = this;
   var routes = [];
   var map = {};
   var reference = "routie";
@@ -150,7 +161,7 @@
       window.location.hash = path;
 
       if (silent) {
-        setTimeout(function() { 
+        setTimeout(function() {
           addListener();
         }, 1);
       }
@@ -203,6 +214,6 @@
   };
   addListener();
 
-  w[reference] = routie;
-   
-})(window);
+  return routie;
+
+}));
