@@ -1,0 +1,8 @@
+{
+  "framework": "jasmine2",
+  "launch_in_dev": ["PhantomJS"],
+  "before_tests": "gulp lint",
+  "src_files":   ["src/**/*.js", "test/**/*.js"],
+  "serve_files": ["src/**/*.js", "test/**/*.js"],
+  "watch_files": ["src/**/*.js", "test/**/*.js"]
+}
