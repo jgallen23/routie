@@ -95,9 +95,8 @@ None
 
 ##Supports
 
-Any modern browser and IE8+
+Any modern browser and IE7+
 
 ##Tests
 
 Run `make install`, then `make test`, then go to http://localhost:8000/test
-
