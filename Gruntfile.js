@@ -1,19 +1,18 @@
 module.exports = function(grunt) {
   grunt.initConfig({
-    info: grunt.file.readJSON('component.json'),
+    info: grunt.file.readJSON('bower.json'),
     meta: {
       banner: '/*!\n'+
               ' * <%= info.name %> - <%= info.description %>\n'+
               ' * v<%= info.version %>\n'+
               ' * <%= info.homepage %>\n'+
-              ' * copyright <%= info.copyright %> <%= grunt.template.today("yyyy") %>\n'+
+              ' * copyright <%= info.authors.join(",") %> <%= grunt.template.today("yyyy") %>\n'+
               ' * <%= info.license %> License\n'+
               '*/\n'
     },
     jshint: {
       main: [
-        'Gruntfile.js', 
-        'component.json',
+        'Gruntfile.js',
         'lib/**/*.js',
         'test/*.js'
       ]
@@ -39,7 +38,7 @@ module.exports = function(grunt) {
     watch: {
       main: {
         files: '<%= jshint.main %>',
-        tasks: 'default' 
+        tasks: 'default'
       },
       ci: {
         files: [
