@@ -107,11 +107,9 @@ suite('routie', function() {
       //assert.equal(name, 'bob');
     //});
     //routie('test-bob');
-    
   //});
 
   test('optional param support', function(done) {
-
     routie('test5/:name?', function(name) {
       assert.equal(name, undefined);
       assert.equal(this.params.name, undefined);
@@ -172,7 +170,7 @@ suite('routie', function() {
       }
     });
     routie('test10');
-    setTimeout(function() { 
+    setTimeout(function() {
       assert.equal(count, 1);
       done();
     }, 100);
@@ -192,7 +190,7 @@ suite('routie', function() {
       }
     });
     routie('test11');
-    setTimeout(function() { 
+    setTimeout(function() {
       assert.equal(count, 1);
       done();
     }, 100);
@@ -212,7 +210,7 @@ suite('routie', function() {
       }
     });
     routie('test12');
-    setTimeout(function() { 
+    setTimeout(function() {
       assert.equal(count, 1);
       done();
     }, 100);
@@ -315,10 +313,7 @@ suite('routie', function() {
         assert.equal(window.location.hash, '#silent-test');
         done();
       }, 20);
-      
     });
-    
   });
-
 
 });
