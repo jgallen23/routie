@@ -51,7 +51,7 @@ routie('users/bob');
 
 optional params:
 ```js
-routie('users/?:name', function(name) {
+routie('users/:name?', function(name) {
 	//name == undefined
 	//then
 	//name == bob
