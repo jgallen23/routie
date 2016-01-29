@@ -1,3 +1,5 @@
+require('assert');
+
 suite('routie', function() {
 
   teardown(function(done) {
