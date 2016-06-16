@@ -44,20 +44,18 @@ Routie also supports regex style routes, so you can do advanced routing like thi
 
 ```js
 routie('users/:name', function(name) {
-	//name == 'bob';
+    console.log(name);
 });
-routie('users/bob');
+routie('users/bob'); // logs `'bob'`
 ```
 
 ###Optional Params:
 ```js
 routie('users/:name?', function(name) {
-	//name == undefined
-	//then
-	//name == bob
+    console.log(name);
 });
-routie('users/');
-routie('users/bob');
+routie('users/'); // logs `undefined`
+routie('users/bob'); // logs `'bob'`
 ```
 
 ###Wildcard:
