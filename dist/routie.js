@@ -5,12 +5,19 @@
  * copyright Greg Allen 2013
  * MIT License
 */
-(function(w) {
+
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && define.amd) {
+        define(factory);
+    } else {
+        window.routie = factory()
+    }
+}(this, function () {
 
   var routes = [];
   var map = {};
-  var reference = "routie";
-  var oldReference = w[reference];
 
   var Route = function(path, name) {
     this.name = name;
@@ -158,11 +165,6 @@
     }, 1);
   };
 
-  routie.noConflict = function() {
-    w[reference] = oldReference;
-    return routie;
-  };
-
   var getHash = function() {
     return window.location.hash.substring(1);
   };
@@ -187,22 +189,22 @@
   };
 
   var addListener = function() {
-    if (w.addEventListener) {
-      w.addEventListener('hashchange', hashChanged, false);
+    if (window.addEventListener) {
+      window.addEventListener('hashchange', hashChanged, false);
     } else {
-      w.attachEvent('onhashchange', hashChanged);
+      window.attachEvent('onhashchange', hashChanged);
     }
   };
 
   var removeListener = function() {
-    if (w.removeEventListener) {
-      w.removeEventListener('hashchange', hashChanged);
+    if (window.removeEventListener) {
+      window.removeEventListener('hashchange', hashChanged);
     } else {
-      w.detachEvent('onhashchange', hashChanged);
+      window.detachEvent('onhashchange', hashChanged);
     }
   };
   addListener();
 
-  w[reference] = routie;
-   
-})(window);
+  return routie;
+
+}));
