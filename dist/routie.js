@@ -2,10 +2,10 @@
  * routie - a tiny hash router
  * v0.3.2
  * http://projects.jga.me/routie
- * copyright Greg Allen 2013
+ * copyright Greg Allen 2016
  * MIT License
 */
-(function(w) {
+var Routie = function(w, mod) {
 
   var routes = [];
   var map = {};
@@ -203,6 +203,15 @@
   };
   addListener();
 
-  w[reference] = routie;
+  if (mod)
+    return routie;
+  else
+    w[reference] = routie;
    
-})(window);
+};
+
+if (typeof module == 'undefined')
+  Routie(window);
+else{
+  module.exports = Routie(window,true);
+}
