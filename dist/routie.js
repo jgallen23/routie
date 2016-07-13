@@ -5,7 +5,7 @@
  * copyright Greg Allen 2016
  * MIT License
 */
-var Routie = function(w, mod) {
+var Routie = function(w, isModule) {
 
   var routes = [];
   var map = {};
@@ -203,15 +203,16 @@ var Routie = function(w, mod) {
   };
   addListener();
 
-  if (mod)
+  if (isModule){
     return routie;
-  else
+  } else {
     w[reference] = routie;
+  }
    
 };
 
-if (typeof module == 'undefined')
+if (typeof module == 'undefined'){
   Routie(window);
-else{
+} else {
   module.exports = Routie(window,true);
 }
