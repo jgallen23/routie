@@ -11,6 +11,7 @@ var Routie = function(w, isModule) {
   var map = {};
   var reference = "routie";
   var oldReference = w[reference];
+  var lateInit = false;
 
   var Route = function(path, name) {
     this.name = name;
@@ -107,15 +108,32 @@ var Routie = function(w, isModule) {
   var routie = function(path, fn) {
     if (typeof fn == 'function') {
       addHandler(path, fn);
-      routie.reload();
+      if (!lateInit) {
+        routie.reload();
+      }
     } else if (typeof path == 'object') {
       for (var p in path) {
         addHandler(p, path[p]);
       }
-      routie.reload();
+      if (!lateInit) {
+        routie.reload();
+      }
+    } else if (typeof fn === 'boolean' && fn === true) {
+      routie.navigate(path, {
+        redirect: true
+      });
     } else if (typeof fn === 'undefined') {
       routie.navigate(path);
     }
+  };
+
+  routie.lateInit = function() {
+    lateInit = true;
+  };
+
+  routie.init = function() {
+    lateInit = false;
+    routie.reload();
   };
 
   routie.lookup = function(name, obj) {
@@ -142,15 +160,21 @@ var Routie = function(w, isModule) {
   routie.navigate = function(path, options) {
     options = options || {};
     var silent = options.silent || false;
+    var redirect = options.redirect || false;
 
     if (silent) {
       removeListener();
     }
     setTimeout(function() {
-      window.location.hash = path;
+      if (redirect && (window.history && history.replaceState)) {
+        history.replaceState(undefined, undefined, "#" + path);
+        hashChanged();
+      } else {
+        window.location.hash = path;
+      }
 
       if (silent) {
-        setTimeout(function() { 
+        setTimeout(function() {
           addListener();
         }, 1);
       }
@@ -208,7 +232,7 @@ var Routie = function(w, isModule) {
   } else {
     w[reference] = routie;
   }
-   
+
 };
 
 if (typeof module == 'undefined'){
